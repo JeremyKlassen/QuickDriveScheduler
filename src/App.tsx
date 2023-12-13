@@ -1,15 +1,19 @@
-
-import './App.css';
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import "./App.css";
+import Home from "./components/pages/Home";
+import Select from "./components/pages/Select";
 
 function App() {
-
   return (
     <>
-        <h1 className="text-5xl underline font-bold">
-      Hello world!
-    </h1>
+      <Router>
+        <Routes>
+          <Route path="/" Component={Home} />
+          <Route path="/select" Component={Select} />
+        </Routes>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
