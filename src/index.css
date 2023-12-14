@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #1a1a1a; /* Replace with your preferred dark color */
+  color: #fff; /* Set text color to white or a contrasting color */
+  margin: 0; /* Remove default margin */
+  font-family: sans-serif; /* Choose a suitable font-family */
+}

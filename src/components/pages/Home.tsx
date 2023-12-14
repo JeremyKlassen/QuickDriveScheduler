@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { generateData } from "../../utils/InsertData.ts";
+import { User } from "../../utils/interfaces.ts";
+import { getUsers } from "../../utils/GetData.ts";
 
 const Home = () => {
-  const data = generateData();
+  let data: User[] = getUsers();
+
   const navigate = useNavigate();
   const jsonString = JSON.stringify(data);
   localStorage.setItem("users", jsonString);
-  console.log(data);
+
+  // console.log(data);
 
   return (
     <>
@@ -14,15 +17,23 @@ const Home = () => {
         onClick={() => {
           navigate("/addData");
         }}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="blueButton"
       >
-        Add a Client, Driver, or Location
+        Add Client, Driver, or Location
+      </button>
+      <button
+        onClick={() => {
+          navigate("/removeData");
+        }}
+        className="blueButton"
+      >
+        Remove Client, Driver, or Location
       </button>
       <button
         onClick={() => {
           navigate("/Select");
         }}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="blueButton"
       >
         Create a Drive Schedule
       </button>

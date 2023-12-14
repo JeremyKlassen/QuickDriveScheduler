@@ -13,7 +13,7 @@ export function generateData() {
     name: `User ${i + 1}`,
     plusCode: generateRandomPlusCode(),
     role: getRandomRole(i),
-    isChecked: false,
+    isChecked: true,
   }));
 
   return data;
