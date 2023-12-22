@@ -9,8 +9,6 @@ const Home = () => {
   const jsonString = JSON.stringify(data);
   localStorage.setItem("users", jsonString);
 
-  // console.log(data);
-
   return (
     <>
       <button

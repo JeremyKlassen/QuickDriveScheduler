@@ -1,25 +1,51 @@
 import { ClientDrive, User, Trip } from "./interfaces";
 
-export function createPickups(drivers: User[], clients: User[]) {
+export function createPickups(driverString: string, clientString: string) {
+  const tempData = localStorage.getItem(driverString);
+  const tempData2 = localStorage.getItem(clientString);
   let schedule: Trip[] = [];
-  const shuffledDrivers = shuffleArray([...drivers]);
-  let ClientsDupe = structuredClone(clients);
+  if (tempData !== null && tempData2 !== null) {
+    const drivers: User[] = JSON.parse(tempData);
+    const clients: User[] = JSON.parse(tempData2);
 
-  shuffledDrivers.forEach((driver) => {
-    if (shuffledDrivers.length * 4 >= ClientsDupe.length) {
-      localStorage.setItem("schedule", "");
-      return {};
-    } else if (shuffledDrivers.length * 3 >= ClientsDupe.length)
-      schedule.push(makeADrive(driver, ClientsDupe, 3));
-    else if (shuffledDrivers.length * 2 >= ClientsDupe.length)
-      schedule.push(makeADrive(driver, ClientsDupe, 2));
-    else if (ClientsDupe.length > 0)
-      schedule.push(makeADrive(driver, ClientsDupe, 1));
-    else {
-      localStorage.setItem("schedule", JSON.stringify(schedule));
-      return;
-    }
-  });
+    const shuffledDrivers = shuffleArray([...drivers]);
+    let ClientsDupe = structuredClone(clients);
+    let driverStepCount = 0;
+    shuffledDrivers.forEach((driver) => {
+      if (ClientsDupe.length > 0) {
+        let ratio =
+          ClientsDupe.length / (shuffledDrivers.length - driverStepCount);
+        driverStepCount++;
+        if (ratio > 2) {
+          schedule.push(makeADrive(driver, ClientsDupe, 3));
+        } else if (ratio > 1) {
+          schedule.push(makeADrive(driver, ClientsDupe, 2));
+        } else if (ratio > 0) {
+          if (shuffledDrivers.length > 0)
+            schedule.push(makeADrive(driver, ClientsDupe, 1));
+          else {
+            localStorage.setItem("schedule", JSON.stringify(schedule));
+            return;
+          }
+        } else {
+          localStorage.setItem("schedule", JSON.stringify(schedule));
+          return;
+        }
+      } else {
+        schedule.push({
+          driver: driver,
+          pickups: [],
+        });
+      }
+    });
+  } else {
+    console.log("error, no local storage for one of the parameters provided.");
+    console.log("client", tempData2);
+    console.log("driver", tempData);
+  }
+  console.log("Schedule: ", schedule);
+
+  localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 
 const makeADrive = (driver: User, ClientsDupe: User[], cycles: number) => {
@@ -49,7 +75,12 @@ const makeADrive = (driver: User, ClientsDupe: User[], cycles: number) => {
         });
       }
     });
-    trip.pickups.push(shortestDrive(DriverDistances));
+
+    const toRemove = shortestDrive(DriverDistances);
+    trip.pickups.push(toRemove);
+
+    const indexToRemove = ClientsDupe.indexOf(toRemove.user2);
+    ClientsDupe.splice(indexToRemove, 1);
   }
   return trip;
 };
@@ -59,7 +90,6 @@ const shortestDrive = (drives: ClientDrive[]) => {
   drives.forEach((drive) => {
     if (drive.distance < longestDrive.distance) longestDrive = drive;
   });
-
   return longestDrive;
 };
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { User } from "../../utils/interfaces";
 import { getUsers } from "../../utils/GetData";
 import { createPickups } from "../../utils/CreateSchedule";
+import { getChecked } from "../../utils/ManipulateData";
 
 const Select = () => {
   let data: User[] = getUsers();
@@ -82,11 +83,14 @@ const Select = () => {
       </button>
       <button
         onClick={() => {
-          createPickups(driverUsers, clientUsers);
+          const dc = "driversChecked";
+          const cc = "clintsChecked";
+          localStorage.setItem("driversAll", JSON.stringify(driverUsers));
+          localStorage.setItem("clientsAll", JSON.stringify(clientUsers));
+          getChecked("driversAll", dc);
+          getChecked("clientsAll", cc);
+          createPickups(dc, cc);
           let temp = localStorage.getItem("schedule");
-          console.log("Here is the schedule");
-
-          console.log(temp);
 
           navigate("/Schedule");
         }}

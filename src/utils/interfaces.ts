@@ -1,13 +1,13 @@
 export interface User {
   name: string;
   coordinates: string;
-  role: "client" | "driver" | "location";
+  role: string;
   isChecked: boolean;
 }
 
 export interface ClientDrive {
-  user1: User & { role: "client" | "driver" };
-  user2: User & { role: "client" | "driver" };
+  user1: User;
+  user2: User;
   distance: number;
 }
 

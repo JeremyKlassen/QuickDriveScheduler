@@ -8,7 +8,7 @@ const AddData = () => {
   const [formData, setFormData] = useState({
     name: "",
     coordinates: "",
-    role: "client", // Default role
+    role: "client" as const, // Default role
   });
 
   const handleChange = (e: any) => {
