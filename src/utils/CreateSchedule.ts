@@ -9,9 +9,12 @@ export function createPickups(driverString: string, clientString: string) {
     const clients: User[] = JSON.parse(tempData2);
 
     const shuffledDrivers = shuffleArray([...drivers]);
-    let ClientsDupe = structuredClone(clients);
+    let ClientsDupe = JSON.parse(JSON.stringify(clients));
+    // structuredClone(clients);
     let driverStepCount = 0;
     shuffledDrivers.forEach((driver) => {
+      // console.log("dupe", ClientsDupe);
+
       if (ClientsDupe.length > 0) {
         let ratio =
           ClientsDupe.length / (shuffledDrivers.length - driverStepCount);
@@ -43,7 +46,6 @@ export function createPickups(driverString: string, clientString: string) {
     console.log("client", tempData2);
     console.log("driver", tempData);
   }
-  console.log("Schedule: ", schedule);
 
   localStorage.setItem("schedule", JSON.stringify(schedule));
 }
@@ -75,22 +77,29 @@ const makeADrive = (driver: User, ClientsDupe: User[], cycles: number) => {
         });
       }
     });
+    console.log(ClientsDupe);
 
-    const toRemove = shortestDrive(DriverDistances);
+    const distanceData = shortestDrive(DriverDistances);
+    const toRemove = distanceData.longestDrive;
     trip.pickups.push(toRemove);
-
-    const indexToRemove = ClientsDupe.indexOf(toRemove.user2);
-    ClientsDupe.splice(indexToRemove, 1);
+    ClientsDupe.splice(distanceData.index, 1);
+    console.log(ClientsDupe);
   }
   return trip;
 };
 
 const shortestDrive = (drives: ClientDrive[]) => {
   let longestDrive: ClientDrive = drives[0];
+  let index = 0,
+    counter = 0;
   drives.forEach((drive) => {
-    if (drive.distance < longestDrive.distance) longestDrive = drive;
+    if (drive.distance < longestDrive.distance) {
+      longestDrive = drive;
+      index = counter;
+    }
+    counter++;
   });
-  return longestDrive;
+  return { longestDrive, index };
 };
 
 function shuffleArray<T>(array: T[]): T[] {
