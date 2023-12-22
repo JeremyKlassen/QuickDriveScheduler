@@ -7,7 +7,7 @@ const AddData = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
-    plusCode: "",
+    coordinates: "",
     role: "client", // Default role
   });
 
@@ -24,7 +24,7 @@ const AddData = () => {
 
     const newUser: User = {
       name: formData.name,
-      plusCode: formData.plusCode,
+      coordinates: formData.coordinates,
       role: formData.role,
       isChecked: true,
     };
@@ -51,13 +51,13 @@ const AddData = () => {
           />
         </div>
         <div>
-          <label htmlFor="plusCode">Google Pluscode:</label>
+          <label htmlFor="coordinates">Google coordinates:</label>
           <input
             className="text-black"
             type="text"
-            id="plusCode"
-            name="plusCode"
-            value={formData.plusCode}
+            id="coordinates"
+            name="coordinates"
+            value={formData.coordinates}
             onChange={handleChange}
             required
           />

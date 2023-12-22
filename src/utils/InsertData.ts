@@ -1,5 +1,7 @@
-function generateRandomPlusCode() {
-  return Math.random().toString(36).slice(2, 8);
+function generateRandomCoordinate() {
+  const randomCoordinate = () =>
+    (Math.random() * (180 * (Math.random() < 0.5 ? 1 : -1))).toFixed(6);
+  return `${randomCoordinate()}, ${randomCoordinate()}`;
 }
 
 function getRandomRole(roleToGet: number) {
@@ -11,7 +13,7 @@ function getRandomRole(roleToGet: number) {
 export function generateData() {
   const data = Array.from({ length: 10 }, (_, i) => ({
     name: `User ${i + 1}`,
-    plusCode: generateRandomPlusCode(),
+    coordinates: generateRandomCoordinate(),
     role: getRandomRole(i),
     isChecked: true,
   }));

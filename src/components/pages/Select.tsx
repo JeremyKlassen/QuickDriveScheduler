@@ -3,6 +3,7 @@ import TickBoxCard from "../ui/TickBoxCard";
 import { useState } from "react";
 import { User } from "../../utils/interfaces";
 import { getUsers } from "../../utils/GetData";
+import { createPickups } from "../../utils/CreateSchedule";
 
 const Select = () => {
   let data: User[] = getUsers();
@@ -81,7 +82,11 @@ const Select = () => {
       </button>
       <button
         onClick={() => {
-          console.log(driverUsers);
+          createPickups(driverUsers, clientUsers);
+          let temp = localStorage.getItem("schedule");
+          console.log("Here is the schedule");
+
+          console.log(temp);
 
           navigate("/Schedule");
         }}
