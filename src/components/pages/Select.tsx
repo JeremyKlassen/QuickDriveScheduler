@@ -6,11 +6,40 @@ import { getUsers } from "../../utils/GetData";
 import { createPickups } from "../../utils/CreateSchedule";
 import { getChecked } from "../../utils/ManipulateData";
 
+const handleCreateSchedule = (
+  driverUsers: User[],
+  clientUsers: User[],
+  locationUsers: User[],
+  scheduleType: string
+) => {
+  const dc = "driversChecked";
+  const cc = "clintsChecked";
+  const location = locationUsers.find((obj) => obj?.name === scheduleType);
+  localStorage.setItem("driversAll", JSON.stringify(driverUsers));
+  localStorage.setItem("clientsAll", JSON.stringify(clientUsers));
+  getChecked("driversAll", dc);
+  getChecked("clientsAll", cc);
+  switch (scheduleType) {
+    case "home":
+      const home: User = {
+        name: "home",
+        coordinates: "",
+        role: "",
+        isChecked: false,
+      };
+      createPickups(dc, cc, home);
+      break;
+    default:
+      createPickups(dc, cc, location as User);
+      break;
+  }
+};
+
 const Select = () => {
   let data: User[] = getUsers();
 
   const [userStates, setUserStates] = useState<User[]>(data);
-  const [selectedName, setSelectedName] = useState("");
+  const [selectedName, setSelectedName] = useState("home");
 
   const setIsChecked = (index: number, isChecked: boolean, role: string) => {
     setUserStates((prevUserStates) => {
@@ -58,21 +87,21 @@ const Select = () => {
         />
       ))}
       <hr />
-      <h2>Locations</h2>
-      <select
-        className="text-black"
-        value={selectedName}
-        onChange={(e) => setSelectedName(e.target.value)}
-      >
-        <option value="" disabled>
-          Select a location
-        </option>
-        {locationUsers.map((locationUsers) => (
-          <option key={locationUsers.name} value={locationUsers.name}>
-            {locationUsers.name}
-          </option>
-        ))}
-      </select>
+      <div>
+        <h2>Starting Location</h2>
+        <select
+          className="text-black"
+          value={selectedName}
+          onChange={(e) => setSelectedName(e.target.value)}
+        >
+          <option value="home">Pick up from home</option>
+          {locationUsers.map((locationUsers) => (
+            <option key={locationUsers.name} value={locationUsers.name}>
+              {locationUsers.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <button
         onClick={() => {
           navigate("/");
@@ -83,15 +112,12 @@ const Select = () => {
       </button>
       <button
         onClick={() => {
-          const dc = "driversChecked";
-          const cc = "clintsChecked";
-          localStorage.setItem("driversAll", JSON.stringify(driverUsers));
-          localStorage.setItem("clientsAll", JSON.stringify(clientUsers));
-          getChecked("driversAll", dc);
-          getChecked("clientsAll", cc);
-          createPickups(dc, cc);
-          let temp = localStorage.getItem("schedule");
-
+          handleCreateSchedule(
+            driverUsers,
+            clientUsers,
+            locationUsers,
+            selectedName
+          );
           navigate("/Schedule");
         }}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

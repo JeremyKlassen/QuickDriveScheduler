@@ -15,3 +15,8 @@ export interface Trip {
   driver: User;
   pickups: ClientDrive[];
 }
+
+export type DistanceData = {
+  drive: ClientDrive;
+  index: number;
+};
