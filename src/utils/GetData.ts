@@ -1,4 +1,4 @@
-import { generateData } from "./InsertData";
+import { generateFixedData } from "./InsertData";
 import { User } from "./interfaces";
 
 export function getUsers() {
@@ -17,7 +17,7 @@ export function getUsers() {
         );
       }
     } else {
-      data = generateData();
+      data = generateFixedData();
     }
   } catch (error) {
     console.log(error);

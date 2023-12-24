@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { User } from "../../utils/interfaces.ts";
-import { getUsers } from "../../utils/GetData.ts";
+import { User } from "../../utils/interfaces";
+import { getUsers } from "../../utils/GetData";
 
 const Home = () => {
   let data: User[] = getUsers();
@@ -11,30 +11,36 @@ const Home = () => {
 
   return (
     <>
-      <button
-        onClick={() => {
-          navigate("/addData");
-        }}
-        className="blueButton"
-      >
-        Add Client, Driver, or Location
-      </button>
-      <button
-        onClick={() => {
-          navigate("/removeData");
-        }}
-        className="blueButton"
-      >
-        Remove Client, Driver, or Location
-      </button>
-      <button
-        onClick={() => {
-          navigate("/Select");
-        }}
-        className="blueButton"
-      >
-        Create a Drive Schedule
-      </button>
+      <div className="grid grid-rows-1 place-items-center">
+        <div className="w-full sm:w-1/2 mt-10">
+          <h1 className="text-3xl font-bold mb-10">Quick Drive Scheduler</h1>
+          <button
+            onClick={() => {
+              navigate("/Select");
+            }}
+            className="blueButton w-1/2 sm:w-1/2 m-1"
+          >
+            Create a Drive Schedule
+          </button>
+          <button
+            onClick={() => {
+              navigate("/addData");
+            }}
+            className="greyButton w-1/2 sm:w-1/2 mt-5 mb-5"
+          >
+            Add Client, Driver, or Location
+          </button>
+          <button
+            onClick={() => {
+              navigate("/removeData");
+            }}
+            className="greyButton w-1/2 sm:w-1/2 m-1"
+          >
+            Remove Client, Driver, or Location
+          </button>
+          <h2 className="text-lg mt-10">Written by: Jeremy Klassen</h2>
+        </div>
+      </div>
     </>
   );
 };

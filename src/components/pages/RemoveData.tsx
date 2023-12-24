@@ -20,38 +20,43 @@ const RemoveData = () => {
   };
   return (
     <>
-      <select
-        className="text-black"
-        value={selectedName}
-        onChange={(e) => setSelectedName(e.target.value)}
-      >
-        <option value="" disabled>
-          Select a name
-        </option>
-        {data.map((user) => (
-          <option key={user.name} value={user.name}>
-            {user.name}
+      <h1 className="text-3xl font-bold mt-6">Quick Drive Scheduler</h1>
+      <div className="grid grid-rows-2 place-items-center">
+        <select
+          className="text-black m-1 mb-12 mt-5 w-1/2 h-8"
+          value={selectedName}
+          onChange={(e) => setSelectedName(e.target.value)}
+        >
+          <option value="" disabled>
+            Select a name
           </option>
-        ))}
-      </select>
-      <button
-        className="blueButton"
-        onClick={handleRemove}
-        disabled={!selectedName}
-      >
-        Remove entry
-      </button>
-      <button className="blueButton" onClick={handleClear}>
-        Clear Data
-      </button>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-        className="blueButton"
-      >
-        Home
-      </button>
+          {data.map((user) => (
+            <option key={user.name} value={user.name}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+        <div>
+          <button
+            className="blueButton m-1 w-1/2"
+            onClick={handleRemove}
+            disabled={!selectedName}
+          >
+            Remove Entry
+          </button>
+          <button
+            onClick={() => {
+              navigate("/");
+            }}
+            className="greyButton m-3 w-1/2"
+          >
+            Home
+          </button>
+          <button className="redButton m-1 w-1/2" onClick={handleClear}>
+            Clear All Data
+          </button>
+        </div>
+      </div>
     </>
   );
 };

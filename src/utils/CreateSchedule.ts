@@ -15,6 +15,7 @@ export function createPickups(
     const shuffledDrivers = shuffleArray(drivers);
     let ClientsDupe = JSON.parse(JSON.stringify(clients));
     let driverStepCount = 0;
+
     shuffledDrivers.forEach((driver) => {
       if (ClientsDupe.length > 0) {
         let ratio =
@@ -47,7 +48,7 @@ export function createPickups(
     console.log("client", tempData2);
     console.log("driver", tempData);
   }
-
+  localStorage.setItem("location", JSON.stringify(location));
   localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 

@@ -37,11 +37,17 @@ const AddData = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
+      <h1 className="text-3xl font-bold mb-5 mt-5">Quick Drive Scheduler</h1>
+      <form
+        className="grid grid-rows-5 place-items-center"
+        onSubmit={handleSubmit}
+      >
+        <div className="m-3 grid grid-rows-2 place-items-center">
+          <label className="mb-1" htmlFor="name">
+            Name:
+          </label>
           <input
-            className="text-black"
+            className="text-black w-1/1"
             type="text"
             id="name"
             name="name"
@@ -50,10 +56,12 @@ const AddData = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="coordinates">Google coordinates:</label>
+        <div className="m-3 grid grid-rows-2 place-items-center">
+          <label className="mb-1 mt-2" htmlFor="coordinates">
+            Google Coordinates:
+          </label>
           <input
-            className="text-black"
+            className="text-black w-1/1"
             type="text"
             id="coordinates"
             name="coordinates"
@@ -62,10 +70,12 @@ const AddData = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="role">Role:</label>
+        <div className="m-3 grid grid-rows-2 place-items-center w-1/2 mb-8">
+          <label className="mb-1 mt-2" htmlFor="role">
+            Role:
+          </label>
           <select
-            className="text-black"
+            className="text-black h-8 w-1/1"
             id="role"
             name="role"
             value={formData.role}
@@ -77,18 +87,20 @@ const AddData = () => {
             <option value="location">Location</option>
           </select>
         </div>
-        <button type="submit" className="blueButton">
-          Update
-        </button>
+        <div className="grid grid-rows-2 w-full place-items-center">
+          <button type="submit" className="blueButton w-1/2 m-2">
+            Update
+          </button>
+          <button
+            onClick={() => {
+              navigate("/");
+            }}
+            className="greyButton m-2 w-1/2"
+          >
+            Home
+          </button>
+        </div>
       </form>
-      <button
-        onClick={() => {
-          navigate("/");
-        }}
-        className="blueButton"
-      >
-        Home
-      </button>
     </>
   );
 };
