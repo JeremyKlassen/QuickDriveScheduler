@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { User } from "../../utils/interfaces";
 import { getUsers } from "../../utils/GetData";
+import Header from "../layout/Header";
+import { calculateDistance } from "../../utils/CreateSchedule";
 
 const AddData = () => {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ const AddData = () => {
     coordinates: "",
     role: "client" as const, // Default role
   });
+
+  const [coordError, setCoordError] = useState(false);
 
   const handleChange = (e: any) => {
     setFormData({
@@ -28,26 +32,30 @@ const AddData = () => {
       role: formData.role,
       isChecked: true,
     };
-
-    data.push(newUser);
-    localStorage.setItem("users", JSON.stringify(data));
-    console.log("Form submitted:", formData);
-    navigate("/");
+    const test = calculateDistance(newUser.coordinates, newUser.coordinates);
+    if (Number.isNaN(test)) setCoordError(true);
+    else {
+      setCoordError(true);
+      data.push(newUser);
+      localStorage.setItem("users", JSON.stringify(data));
+      console.log("Form submitted:", formData);
+      navigate("/");
+    }
   };
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-5 mt-5">Quick Drive Scheduler</h1>
+      <Header />
       <form
         className="grid grid-rows-5 place-items-center"
         onSubmit={handleSubmit}
       >
         <div className="m-3 grid grid-rows-2 place-items-center">
-          <label className="mb-1" htmlFor="name">
+          <label className="mb-1 text-lg font-bold" htmlFor="name">
             Name:
           </label>
           <input
-            className="text-black w-1/1"
+            className="text-black w-1/1 h-8 p-1"
             type="text"
             id="name"
             name="name"
@@ -57,11 +65,11 @@ const AddData = () => {
           />
         </div>
         <div className="m-3 grid grid-rows-2 place-items-center">
-          <label className="mb-1 mt-2" htmlFor="coordinates">
+          <label className="mb-1 mt-2 text-lg font-bold" htmlFor="coordinates">
             Google Coordinates:
           </label>
           <input
-            className="text-black w-1/1"
+            className="text-black w-1/1 h-8 p-1"
             type="text"
             id="coordinates"
             name="coordinates"
@@ -69,9 +77,15 @@ const AddData = () => {
             onChange={handleChange}
             required
           />
+          {coordError ? (
+            <p className="text-red-500">
+              Error: Coordinates are not in Google Maps format - eg: 49.9999,
+              -49.9999
+            </p>
+          ) : null}
         </div>
         <div className="m-3 grid grid-rows-2 place-items-center w-1/2 mb-8">
-          <label className="mb-1 mt-2" htmlFor="role">
+          <label className="mb-1 mt-2 text-lg font-bold" htmlFor="role">
             Role:
           </label>
           <select

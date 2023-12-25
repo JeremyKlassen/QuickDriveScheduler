@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { User } from "../../utils/interfaces";
 import { getUsers } from "../../utils/GetData";
+import Header from "../layout/Header";
 
 const Home = () => {
   let data: User[] = getUsers();
@@ -11,9 +12,9 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <div className="grid grid-rows-1 place-items-center">
-        <div className="w-full sm:w-1/2 mt-10">
-          <h1 className="text-3xl font-bold mb-10">Quick Drive Scheduler</h1>
+        <div className="w-full sm:w-1/2 mt-5">
           <button
             onClick={() => {
               navigate("/Select");
@@ -39,6 +40,7 @@ const Home = () => {
             Remove Client, Driver, or Location
           </button>
           <h2 className="text-lg mt-10">Written by: Jeremy Klassen</h2>
+          <h2 className="text-lg">Version 0.1.0</h2>
         </div>
       </div>
     </>

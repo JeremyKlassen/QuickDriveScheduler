@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { getUsers } from "../../utils/GetData";
 import { User } from "../../utils/interfaces";
 import { useState } from "react";
+import Header from "../layout/Header";
 
 const RemoveData = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const RemoveData = () => {
   };
   return (
     <>
-      <h1 className="text-3xl font-bold mt-6">Quick Drive Scheduler</h1>
+      <Header />
       <div className="grid grid-rows-2 place-items-center">
         <select
           className="text-black m-1 mb-12 mt-5 w-1/2 h-8"
