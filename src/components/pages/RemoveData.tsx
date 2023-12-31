@@ -29,7 +29,7 @@ const RemoveData = () => {
           onChange={(e) => setSelectedName(e.target.value)}
         >
           <option value="" disabled>
-            Select a name
+            Select a Location
           </option>
           {data.map((user) => (
             <option key={user.name} value={user.name}>

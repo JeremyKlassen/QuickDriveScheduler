@@ -4,6 +4,12 @@ import { User } from "../../utils/interfaces";
 import { getUsers } from "../../utils/GetData";
 import Header from "../layout/Header";
 import { calculateDistance } from "../../utils/CreateSchedule";
+import { generateFixedData } from "../../utils/InsertData";
+
+const handleExampleUsers = () => {
+  const data: User[] = generateFixedData();
+  localStorage.setItem("users", JSON.stringify(data));
+};
 
 const AddData = () => {
   const navigate = useNavigate();
@@ -50,7 +56,7 @@ const AddData = () => {
         className="grid grid-rows-5 place-items-center"
         onSubmit={handleSubmit}
       >
-        <div className="m-3 grid grid-rows-2 place-items-center">
+        <div className="m-3 grid grid-rows-2 place-items-center row h-20">
           <label className="mb-1 text-lg font-bold" htmlFor="name">
             Name:
           </label>
@@ -101,7 +107,7 @@ const AddData = () => {
             <option value="location">Location</option>
           </select>
         </div>
-        <div className="grid grid-rows-2 w-full place-items-center">
+        <div className="grid grid-rows-3 w-full place-items-center row-span-2">
           <button type="submit" className="blueButton w-1/2 m-2">
             Update
           </button>
@@ -112,6 +118,15 @@ const AddData = () => {
             className="greyButton m-2 w-1/2"
           >
             Home
+          </button>
+          <button
+            className="redButton m-2 w-1/2"
+            onClick={() => {
+              handleExampleUsers();
+              navigate("/");
+            }}
+          >
+            Create Example Users
           </button>
         </div>
       </form>
