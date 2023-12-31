@@ -1,4 +1,3 @@
-import { generateFixedData } from "./InsertData";
 import { User } from "./interfaces";
 
 export function getUsers() {
@@ -16,8 +15,6 @@ export function getUsers() {
           "Invalid data format in localStorage. Expected an array."
         );
       }
-    } else {
-      data = generateFixedData();
     }
   } catch (error) {
     console.log(error);
